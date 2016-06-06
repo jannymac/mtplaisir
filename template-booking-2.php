@@ -91,10 +91,13 @@ if ( $_SERVER['HTTP_REFERER'] == $data['booking_page_url']  && $_POST['submit'] 
 	$book_room_type = $_POST['book_room_type'];
 	$book_date_from = $_POST['book_date_from'];
 	$book_date_to = $_POST['book_date_to'];
+	$book_title = $_POST['book_title'];
 	$book_full_name = $_POST['book_full_name'];
 	$book_num_people = $_POST['book_num_people'];
+	$book_airport = $_POST['book_airport'];
 	$book_email = $_POST['book_email'];
 	$book_phone = $_POST['book_phone'];
+	$book_country = $_POST['book_country'];
 	$book_message = $_POST['book_message'];
 	$book_room_price = $_POST['book_room_price'];
 	
@@ -210,10 +213,12 @@ if ( $submit == true && $got_error != true ) {
 	$body = '<ul style="margin: 0px;padding:0 0 0 15px;">';
 	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Room Type','qns') . ":</strong> " . $book_room_type . "</li>";
 	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Date','qns') . ":</strong> " . $book_date_from . " - " . $book_date_to . "</li>";
-	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Guest Name','qns') . ":</strong> " . $book_full_name . "</li>";
+	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Guest Name','qns') . ":</strong> " $book_title . $book_full_name . "</li>";
 	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Number of People','qns') . ":</strong> " . $book_num_people . "</li>";
+	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Airport Transfer Requested?','qns') . ":</strong> " . $book_airport . "</li>";
 	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Email','qns') . ":</strong> " . $book_email . "</li>";
 	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Phone','qns') . ":</strong> " . $book_phone . "</li>";
+	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Country of Origin','qns') . ":</strong> " . $book_country . "</li>";
 	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Price Quoted','qns') . ":</strong> " . $currency_unit.$total_price . "</li>";
 	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('Special Requirements','qns') . ":</strong> " . $book_message . "</li>";
 	$body .= '<li style="margin-bottom: 3px;"><strong>' . __('IP Address','qns') . ":</strong> " . $_SERVER['REMOTE_ADDR'] . "</li>";
@@ -240,10 +245,12 @@ if ( $submit == true && $got_error != true ) {
 	$body2 .= '<ul style="margin: 0px;padding:0 0 0 15px;">';
 	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Room Type','qns') . ":</strong> " . $book_room_type . "</li>";
 	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Date','qns') . ":</strong> " . $book_date_from . " - " . $book_date_to . "</li>";
-	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Guest Name','qns') . ":</strong> " . $book_full_name . "</li>";
+	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Guest Name','qns') . ":</strong> " $book_title . $book_full_name . "</li>";
 	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Number of People','qns') . ":</strong> " . $book_num_people . "</li>";
+	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Airport Transfer Requested?','qns') . ":</strong> " . $book_airport . "</li>";
 	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Email','qns') . ":</strong> " . $book_email . "</li>";
 	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Phone','qns') . ":</strong> " . $book_phone . "</li>";
+	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Country of Origin','qns') . ":</strong> " . $book_country . "</li>";
 	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Price Quoted','qns') . ":</strong> " . $currency_unit.$total_price . "</li>";
 	$body2 .= '<li style="margin-bottom: 3px;"><strong>' . __('Special Requirements','qns') . ":</strong> " . $book_message . "</li>";
 	$body2 .= '</ul>';
@@ -343,11 +350,15 @@ if ( $submit == true && $got_error != true ) {
 								</tr>
 								<tr>
 									<td><strong><?php _e('Name','qns'); ?>:</strong></td>
-									<td><?php echo $book_full_name; ?></td>
+									<td><?php echo $book_title . $book_full_name; ?></td>
 								</tr>
 								<tr>
 									<td><strong><?php _e('Number of People','qns'); ?>:</strong></td>
 									<td><?php echo $book_num_people; ?></td>
+								</tr>
+								<tr>
+									<td><strong><?php _e('Airport Transfer Requested?','qns'); ?>:</strong></td>
+									<td><?php echo $book_airport; ?></td>
 								</tr>
 								<tr>
 									<td><strong><?php _e('Email Address','qns'); ?>:</strong></td>
@@ -356,6 +367,10 @@ if ( $submit == true && $got_error != true ) {
 								<tr>
 									<td><strong><?php _e('Phone Number','qns'); ?>:</strong></td>
 									<td><?php echo $book_phone; ?></td>
+								</tr>
+								<tr>
+									<td><strong><?php _e('Country of Origin','qns'); ?>:</strong></td>
+									<td><?php echo $book_country; ?></td>
 								</tr>
 								<tr>
 									<td><strong><?php _e('Special Requirements','qns'); ?>:</strong></td>
@@ -410,6 +425,12 @@ if ( $submit == true && $got_error != true ) {
 								endif;
 							?>" name="book_num_people" class="text-input" />
 							
+							<input type="text" onblur="if(this.value=='')this.value='<?php _e('Airport Transfer Requested?','qns'); ?>';" onfocus="if(this.value=='<?php _e('Airport Transfer Requested?','qns'); ?>')this.value='';" value="<?php 
+								if(isset($_POST['book_airport'])) : echo $_POST['book_airport']; 
+								else : _e('Airport Transfer Requested?','qns'); 
+								endif;
+							?>" name="book_airport" value="No" class="radiobox" />Yes <input type="radio" name="book_airport" value="No" class="radiobox"> No
+							
 							<input type="text" onblur="if(this.value=='')this.value='<?php _e('Email Address','qns'); ?>';" onfocus="if(this.value=='<?php _e('Email Address','qns'); ?>')this.value='';" value="<?php 
 								if(isset($_POST['book_email'])) : echo $_POST['book_email']; 
 								else : _e('Email Address','qns'); 
@@ -421,6 +442,12 @@ if ( $submit == true && $got_error != true ) {
 								else : _e('Phone Number','qns'); 
 								endif;
 							?>" name="book_phone" class="text-input" />
+							
+							<input type="text" onblur="if(this.value=='')this.value='<?php _e('Country of Origin','qns'); ?>';" onfocus="if(this.value=='<?php _e('Country of Origin','qns'); ?>')this.value='';" value="<?php 
+								if(isset($_POST['book_country'])) : echo $_POST['book_country']; 
+								else : _e('Country of Origin','qns'); 
+								endif;
+							?>" name="book_country" class="text-input" />
 							
 							<textarea class="text-input" rows="6" name="book_message" onfocus="if(this.value=='<?php _e('Special Requirements','qns'); ?>')this.value='';" onblur="if(this.value=='')this.value='<?php _e('Special Requirements','qns'); ?>';"><?php 
 								if(isset($_POST['book_message'])) : echo $_POST['book_message']; 
